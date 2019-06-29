@@ -1,0 +1,1 @@
+var seqStatus={ACTIVE:"Active",NOT_STARTED:"Not Started",PAUSED:"Paused",SEARCH_PAUSED:"Search Paused",ERROR:"Error",COMPLETE:"Complete",SKIPPED:"Skipped",FETCHING:"Fetching"},stepType={CONNECT:"Connect",MESSAGE:"Message"},delayTypes={DAYS:"Days",ACCEPTED:"Accepted"};

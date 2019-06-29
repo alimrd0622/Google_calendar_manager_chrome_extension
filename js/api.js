@@ -1,0 +1,1 @@
+var apiAddress="https://api.linkedhub.io/api/v3/";

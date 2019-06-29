@@ -1,0 +1,39 @@
+{
+   "background": {
+      "scripts": [ "libs/jquery.min.js", "js/functions.js", "js/api.js", "js/sequences.js", "js/background.js" ]
+   },
+   "browser_action": {
+      "default_icon": "img/icon48.png",
+      "default_title": "linkedhub"
+   },
+   "content_scripts": [ {
+      "css": [ "css/inject_style.css", "libs/tooltipster.bundle.min.css" ],
+      "js": [ "libs/jquery.min.js", "libs/tooltipster.bundle.min.js", "js/functions.js", "js/linkedin_helper.js", "js/api.js" ],
+      "matches": [ "*://*.linkedin.com/*" ],
+      "run_at": "document_idle"
+   }, {
+      "js": [ "js/auth_helper.js" ],
+      "matches": [ "https://api.linkedhub.io/*" ],
+      "run_at": "document_idle"
+   } ],
+   "content_security_policy": "script-src 'self' https://*.intercom.io https://*.intercomcdn.com; object-src 'self'",
+   "description": "LinkedIn lead generation with Hubspot integration",
+   "icons": {
+      "128": "img/icon128.png",
+      "16": "img/icon48.png",
+      "48": "img/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArj+OhNyE2MIYx0by1ZI5jVbyr6hcXip2yv0jllgoLflRH0VLg/Rgg6/Eh2qcn5Cn56941EMKM07w6P//LdQ2t/6fSKN7pfilXrFYB0KB4xbMehOxik5xa1qXcv8UZkON9sjuZgyIKiWGySPw3IB4r/qw6pCuVoSqEs6aphQk2chlaqTV+W+x9ARFDICVSDSJ3CiEr3sd5Ho4HEj87jRVb13SACw0GNbhjShyyn0BWStyIuIky5Awi49UA35lCWS+59JTm3mmlJVOoPDyR2he4w2xXJ0F4+a3Mk/xIaVFq+nt3Yz8FyuQjuFD7itEP7DzoUmWclDMwj+ofcfmDzM8owIDAQAB",
+   "manifest_version": 2,
+   "name": "linkedhub",
+   "options_ui": {
+      "chrome_style": false,
+      "open_in_tab": true,
+      "page": "settings.html"
+   },
+   "permissions": [ "tabs", "storage", "*://*.hubspot.com/*", "*://*.hubapi.com/*", "*://*.linkedin.com/*", "https://api.linkedhub.io/*", "https://api.anymailfinder.com/*", "https://api.findthatlead.com/*", "https://api.emailhunter.co/*", "https://*.toofr.com/*", "https://bpi.briteverify.com/*", "activeTab", "notifications", "management", "webRequest", "webRequestBlocking", "cookies" ],
+   "short_name": "linkedhub",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.13.9",
+   "web_accessible_resources": [ "css/*.*", "img/*.*", "libs/*.*", "linkedin_signout.html", "settings.html" ]
+}

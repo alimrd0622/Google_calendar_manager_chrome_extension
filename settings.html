@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>LinkedHub</title>
+	<link rel="shortcut icon" type="image/png" href="img/icon16.png"/>
+	<link rel="stylesheet" href="libs/bootstrap/bootstrap-grid-3.3.1.min.css">
+	<link rel="stylesheet" href="libs/select2/css/select2.min.css">
+	<link rel="stylesheet" href="libs/messagebox/messagebox.css">
+	<link rel="stylesheet" href="libs/tooltipster.bundle.min.css">
+	<link rel="stylesheet" href="css/settings.css">
+
+	<script src="libs/jquery.min.js"></script>
+	<script src="libs/select2/js/select2.min.js"></script>
+	<script src="libs/tooltipster.bundle.min.js"></script>
+	<script src="libs/messagebox/messagebox.min.js"></script>
+	<script src="libs/jquery-dateformat.min.js"></script>
+
+	<script src="js/intercom.js"></script>
+	<script src="js/functions.js"></script>
+	<script src="js/api.js"></script>
+	<script src="js/sequences.js"></script>
+	<script src="js/settings.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<div id="loading">
+			<div class="loading_img"></div>
+		</div>
+		
+		<div id="quick_message" class="popup_wraper" style="display: none;">
+			<div class="popup small">
+				<p class="text">The sequence has been saved.</p>
+			</div>
+		</div>
+		
+		<div id="seq_step_edit" class="popup_wraper" style="display: none;">
+			<div class="popup step-edit">
+				<div class="close" href=""><img src="img/close.png" alt="close"></div>
+				<div class="top-logo">
+					<!-- <img src="img/logo_small.png" alt="logo"> -->
+				</div>
+				<div class="tab">
+				<form>
+					<input name="step-id" type="hidden" value=""/>
+					<input name="step-order" type="hidden" value=""/>
+					<input name="step-new" type="hidden" value=""/>
+					<h3 class="heading">Step 2 - Message</h3>
+					<div class="step-edit__text step-edit__param">
+						<label>Message</label><br/>
+						<textarea maxlength="300"></textarea>
+					</div>
+					<!--<label>Send next step after </label><input class="step-edit__days" type="number" min="0" value="10"/><label> days have passed</label>-->
+					<input class="step-edit__days" type="hidden" min="0" value="10"/>
+					<input class="step-edit__minutes" type="hidden" min="0" value="10"/>
+					<div class="step-edit__param">
+						<div class="step-edit__tag inline">
+							<select class="sel2 sel2-ignore">
+								<option value="">Insert Tag</option>
+								<option value="{firstname}">First Name</option>
+								<option value="{lastname}">Last Name</option>
+								<option value="{fullname}">Full Name</option>
+								<option value="{company 1}">Company</option>
+								<option value="{education 1}">Education</option>
+							</select>
+						</div>
+					</div>
+					<button id="seq_edit_save" class="primary right">Save</button>
+				</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="navbar">
+				<div class="top-logo">
+					<!-- <img src="img/logo_small.png" alt="logo"> -->
+				</div>
+
+				<ul class="nav-block disabled">
+					<!-- <li class="nav-block__header">Settings</li> -->
+					<h6 id="prospects_remain" title="Daily enrollments. Click to update." class="heading is-blue is-small">0 of 0 Enrolled</h6>
+					<!--<h6 id="prospects_remain" class="heading is-blue is-small">0 of 0 Enrolled</h6>-->
+					<li class="nav-block__item is-active">
+						<a href="#" data-for="page0">Account</a>
+					</li>
+					<li class="nav-block__item seq_cloud_enabled">
+						<a href="#" data-for="page1">Sequences Cloud</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="notification"></div>
+
+			<div class="content page" id="page1" style="display: none;">
+				<div class="panel clearfix news" style="display: none;">
+					<div class="tab">
+						<div class="info-container"></div>
+						<button action="ok" class="second inline margin-top-32">Ok</button>
+					</div>
+				</div>
+				<div class="panel clearfix">
+					<div class="tab">
+						<h3 class="heading seq_title">Sequences</h3>
+							<table class="sequences" id="seq_tab">
+							<thead>
+								<tr>
+									<th>Sequence Name</th>
+									<th>Status</th> 
+									<th>Total People Enrolled</th>
+									<th>People Enrolled Per Day</th>
+									<th class="clean"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<!--<tr>
+									<td>Software CEO’s</td>
+									<td>Active</td> 
+									<td>2 of 3</td>
+									<td>3<sup>rd</sup> URL of 5</td>
+									<td class="clean"><button class="delete" type="button">Delete</button></td>
+								</tr>-->
+							</tbody>
+							</table>
+							
+						<div class="container-fluid"> 
+							<div>
+								<button id="seq_create" disabled class="second inline margin-top-32">Create New</button>
+								<div class="seq_control_btns inline">
+									<button id="seq_stop" class="primary inline">Stop</button>
+									<button id="seq_start" class="third inline">Start</button>
+									<a id="seq_log" href="#">log</a>
+								</div>
+								<a href="#page0" class="enrollments">0 of 0</a>
+								<button id="seq_refresh" class="third inline margin-top-32 fright">Refresh</button>
+							</div>
+						</div> 
+					</div>
+
+				</div>
+				
+				<div class="panel clearfix">
+					<div class="tab seq-edit">
+						<h3 class="heading">Name</h3>
+						<h3 class="subhead">Give your sequence a name</h3>
+						<div class="container-fluid">
+							<style></style>
+							<div class="seq-param">
+								<label for="seq_name">Sequence name</label>
+								<div>
+									<input id="seq_name" type="text" class="heading" value=""/>
+								</div>
+							</div>
+								
+						</div>
+					</div>
+
+					<div class="tab seq-edit">
+						<h3 class="heading">Search</h3>
+						<h3 class="subhead">Find your target audience with <a href="https://www.linkedin.com/search/results/people/" target="_blank">LinkedIn Search</a> or <a href="https://www.linkedin.com/sales/search" target="_blank">Sales Navigator</a></h3>
+						<div class="container-fluid">
+							<div class="seq-param">
+								<label for="seq_urls">LinkedIn Search URL’s</label>	
+								<div id="seq_urls" class="seq-urls">
+									<ul>
+									<!--<li class="seq-urls__item"><span class="seq-urls__item__delete"></span>
+										<a target="_blank" href="https://www.linkedin.com/vsearch/f">https://www.linkedin.com/vsearch/f</a>
+									</li>-->
+									</ul>
+									<input placeholder="Insert new URL here and press Enter" data-role="add_url" type="text" value=""/>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="tab seq-create-step">
+						<h3 class="heading">Messages</h3>
+						<h3 class="subhead">Craft, sequence, and send messaging to your target audience</h3>
+						<div class="container-fluid">
+							<!-- <h3 class="heading is-blue">Create A Step In the Sequence</h3> -->
+							<div class="seq_msg_btns">
+								<button class="seq_connect second inline">Connect</button>
+								<button class="seq_message second inline">Message</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="tab seq-steps-view">
+						<h3 class="heading">Messages</h3>
+						<h3 class="subhead">Craft, sequence, and send messaging to your target audience</h3>
+						<div class="container-fluid steps">
+							<!--<div class="step connect line-left-v" data-step-id="" data-step-order="">
+								<div class="step__head connect line-left-h">
+									<span class="step__head_name">Step 1 - Connect</span>
+									<span class="step__head-control">
+										<img title="Edit step" data-role="edit" src="../img/pencil.png">
+										<img title="Delete step" data-role="delete" src="../img/close2.png"></span>
+									</div>
+								<div class="step__content">asdasd</div>
+							</div>
+							<div class="step delay line-left-v" data-step-id="15">
+								<div class="step__head delay line-left-h"><span class="step__head_name">Delay</span></div>
+								<div class="step__next">Wait for <span><input type="number" class="num" min="0" value="10"> days</span><label class="skip-delay"><input type="checkbox">Skip if connection is accepted</label></div>
+							</div>-->
+						</div>
+							
+						<div class="container-fluid">
+							<div class="seq_msg_btns">
+								<!-- <button class="seq_connect second inline line-left-h">Connect</button> -->
+								<button class="seq_message second inline line-left-h">Message</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="tab seq-save" >
+						<button id="seq_save" class="primary right">Save</button>
+					</div>
+					
+				</div>
+					
+				<div class="panel clearfix">
+					<div class="tab" id="bl_tab">
+						<h3 class="heading">Responses</h3>
+						<div class="bl-filter">
+							<input type="text" placeholder="type here to search" name="bl-filter" value="">
+							<img src="img/search.svg">
+						</div>
+						<div class="blacklist-container">
+							<table class="blacklist">
+							<thead>
+								<tr>
+									<th>First Name</th>
+									<th>Last Name</th> 
+									<th>Links</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Jhon</td>
+									<td>Doe</td> 
+									<td>Profile | Conversation</td>
+									<td><button class="delete" type="button">Delete</button></td>
+								</tr>
+							</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="content page" id="page0">
+				<div class="panel clearfix">
+					
+					<div class="tab" id="tab_login">
+						<h3 class="heading">Welcome to LinkedHub!</h3>
+						<p class="panel__description">Please log in with your LinkedIn account.</p>
+						<div class="info-container" id="new_login_info" style="display: none;">
+							<p class="header">Login update.</p>
+							<p>We have improved the LinkedIn login method and disabled email login. This will ensure no issues from the upcoming LinkedIn login updates.</p>
+							<p>If you have trouble accessing your account please contact support.</p>
+						</div>
+						<div class="container-fluid margin-top-24">
+							<button id="li_login" class="primary margin-top-24 linkedin"><img src="img/icons/linkedin32.png">Log in with LinkedIn</button>
+						</div>
+						<p class="disclamer"><br>By using linkedhub you agree to our <a target="_blank" href="http://www.linkedhub.io/terms-of-use">Terms of Use</a> and <a target="_blank" href="http://www.linkedhub.io/privacy-policy">Privacy Policy</a>.</p>
+					</div>
+
+					<div class="tab" id="tab_loggedin" style="display: none;">
+						<h3 class="heading">Welcome to LinkedHub!</h3>
+						<p class="panel__description">You are logged in as <strong class="loggedin_name"></strong>.</p>
+						<div class="container-fluid margin-top-24">
+							<button id="user_logout" class="add_new is-orange margin-top-24 inline">Log Out</button>
+							<button id="change_password" class="add_new is-orange margin-top-24 margin-left-16 inline" style="display:none">Change Password</button>
+						</div>
+					</div>
+					
+				</div>
+
+				<div class="panel clearfix flex">
+					<div class="tab plans">
+						<h3 class="heading">Plans &amp; Billing</h3>
+						<div class="container-fluid">
+							<div class="row">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="panel clearfix flex">
+					<div class="tab payment-details" style="display: none;">
+						<h3 class="heading">Payment Details</h3>
+						<div class="container-fluid">
+							<p class="card"></p>
+							<form action="" id="form-add-card" method="post">
+								<input type="hidden" name="action" value="updatecard">
+								<input type="hidden" name="cookies" value="">
+								<input type="hidden" name="extensionId" value="">
+								<input type="hidden" name="name" value="">
+								<input type="hidden" name="zip" value="">
+								<input type="hidden" name="country" value="">
+								<input type="hidden" name="state" value="">
+								<input type="hidden" name="city" value="">
+								<input type="hidden" name="address" value="">
+							</form>
+							<button class="btn second margin-top-24" id="btn_add_card">Change card</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel clearfix flex">
+					<div class="tab payment-history" style="display: none;">
+						<h3 class="heading">Payment History</h3>
+						<div class="container-fluid">
+							<table class="payment-hist"><tbody></tbody></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
